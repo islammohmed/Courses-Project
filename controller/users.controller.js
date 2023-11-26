@@ -19,10 +19,11 @@ const getAllusers = asyncWrapper(async (req,res) => {
     })
 
 
-const register = asyncWrapper (async (req, res ,next) => {
-    const { firstName, lastName, email, password ,role } = req.body;
+const register = asyncWrapper (
+    async (req, res ,next) => {
+    const { firstName, lastName, email, password, role  } = req.body;
         
-    const oldUser = await User.findOne({ email: email});
+    const oldUser = await User.findOne({ email: email})
 
     if(oldUser){
         const error = appErrorr.create('user already exists', 400, httpStatusText.FAIL)
@@ -40,7 +41,7 @@ const register = asyncWrapper (async (req, res ,next) => {
     })
     
     //generate jwt token
-    const token = await generateJWT({email: newUser.email, id: newUser._id, role:newUser.role});
+    const token = await generateJWT({email: newUser.email, id: newUser._id, role: newUser.role});
     newUser.token = token;
     await newUser.save();
     res.status(201).json({status: httpStatusText.SUCCESS, data:{user: newUser}});
@@ -63,7 +64,7 @@ const {email, password} = req.body;
 
         if(user && matchedpassword)
         { 
-            const token = await generateJWT({email: user.email, id: user._id});
+            const token = await generateJWT({email: user.email, id: user._id, role: user.role});
             res.status(201).json({status: httpStatusText.SUCCESS, data:{token}})
         }else {
             const error = appErrorr.create('email not found', 500, httpStatusText.ERROR)

@@ -18,6 +18,6 @@ router.route('/')
 router.route('/:courseId')
             .get(courseController.getCourse)
             .patch(courseController.updateCourse )
-            .delete(verifyToken,allowedTo(userRoles.Admin,userRoles.MANGER),courseController.deleteCourse);
+            .delete(verifyToken,allowedTo(userRoles.ADMIN,userRoles.MANGER),courseController.deleteCourse);
 
 module.exports = router ;

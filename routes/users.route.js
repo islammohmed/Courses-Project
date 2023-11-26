@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controller/users.controller');
 const verifyToken =require('../middlewares/varifyToken');
-const multer  = require('multer');
+const multer = require('multer');
 const appErrorr = require('../utils/appErrorr');
+
+
 const diskStorage = multer.diskStorage({
         destination: function(req, file, cb){
                 console.log("FILE", file);
@@ -37,6 +39,6 @@ router.route('/register')
         
 router.route('/login')
         .post(userController.login)           
- 
+
 
 module.exports = router;

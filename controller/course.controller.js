@@ -7,11 +7,12 @@ const appErrorr = require('../utils/appErrorr');
 
 
 const getAllcourses = asyncWrapper(async (req,res) => {
-    const query = req.query;
-    const limit = query.limit || 10 ;
-    const page =  query.page || 10 ; 
-    const skip =  (page - 1) * limit ;
-        const courses = await Course.find({},{"__v":false}).limit(limit).skip(skip);;
+    // if you need pagination
+    // const query = req.query;
+    // const limit = query.limit || 10 ;
+    // const page =  query.page || 10 ; 
+    // const skip =  (page - 1) * limit ;
+        const courses = await Course.find({},{"__v":false});
         res.json({status:httpStatusText.SUCCESS, data:{courses}});
     })
 
@@ -45,14 +46,13 @@ const addcourse = asyncWrapper(async (req,res) => {
 })
 
 
-const updateCourse = asyncWrapper(async (req,res)=>{
-        const courseId = req.params.courseId;
-    
-    const updatedCourse = await  course.updateOne(courseId, {$set: {...req.body}});
-    res.status(200).json({status:httpStatusText.SUCCESS, data:{course:updateCourse}})
-        
-    }  
-)
+const updateCourse = asyncWrapper(async (req, res) => {
+    const courseId = req.params.courseId;    
+    const updatedCourse = await Course.updateOne({_id: courseId}, {$set: {...req.body}});
+    return res.status(200).json({status: httpStatusText.SUCCESS, data: {course: updatedCourse}})
+
+
+})
 
 const deleteCourse = asyncWrapper( async(req,res)=>{
     await Course.deleteOne({_id:req.params.courseId});

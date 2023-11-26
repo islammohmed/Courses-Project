@@ -1,5 +1,5 @@
 const userRole = {
-    Admin: "ADMIN",
+    ADMIN: "ADMIN",
     USER: "USER",
     MANGER: "MANGER",
 }
